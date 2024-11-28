@@ -27,31 +27,17 @@ return {
     require("mason-lspconfig").setup({
       ensure_installed = {
         "lua_ls",
-        "rust_analyzer",
-        "gopls",
+        -- "rust_analyzer",
+        -- "gopls",
       },
       handlers = {
-        function(server_name)         -- default handler (optional)
+        function(server_name) -- default handler (optional)
           require("lspconfig")[server_name].setup {
             capabilities = capabilities
           }
         end,
 
-        zls = function()
-          local lspconfig = require("lspconfig")
-          lspconfig.zls.setup({
-            root_dir = lspconfig.util.root_pattern(".git", "build.zig", "zls.json"),
-            settings = {
-              zls = {
-                enable_inlay_hints = true,
-                enable_snippets = true,
-                warn_style = true,
-              },
-            },
-          })
-          vim.g.zig_fmt_parse_errors = 0
-          vim.g.zig_fmt_autosave = 0
-        end,
+        -- Lua language server config
         ["lua_ls"] = function()
           local lspconfig = require("lspconfig")
           lspconfig.lua_ls.setup {
@@ -74,18 +60,19 @@ return {
     cmp.setup({
       snippet = {
         expand = function(args)
-          require('luasnip').lsp_expand(args.body)           -- For `luasnip` users.
+          require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
         end,
       },
       mapping = cmp.mapping.preset.insert({
-        ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-        ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-        ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(),
+        ["<C-e>"] = cmp.mapping.abort(),
+        ["<CR>"] = cmp.mapping.confirm({ select = false }),
       }),
       sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        { name = 'luasnip' },         -- For luasnip users.
+        { name = 'luasnip' }, -- For luasnip users.
       }, {
         { name = 'buffer' },
       })
@@ -103,24 +90,97 @@ return {
       },
     })
 
-    -- dart lsp
-    require("lspconfig").dartls.setup({
-      cmd = { "dart", "language-server", "--protocol=lsp" },
+    -- dart LSP
+    local dartExcludedFolders = {
+      vim.fn.expand("$HOME/AppData/Local/Pub/Cache"),
+      vim.fn.expand("$HOME/.pub-cache"),
+      vim.fn.expand("/opt/homebrew/"),
+      vim.fn.expand("$HOME/tools/flutter/"),
+    }
+
+    local lsp_config = require("lspconfig")
+    -- lsp_config.dcmls.setup({
+    --   capabilities = capabilities,
+    --   cmd = {
+    --     "dcm",
+    --     "start-server",
+    --   },
+    --   filetypes = { "dart", "yaml" },
+    --   settings = {
+    --     dart = {
+    --       analysisExcludedFolders = dartExcludedFolders,
+    --     },
+    --   },
+    -- })
+
+    lsp_config.dartls.setup({
+      capabilities = capabilities,
+      cmd = {
+        "dart",
+        "language-server",
+        "--protocol=lsp",
+        -- "--port=8123",
+        -- "--instrumentation-log-file=/Users/robertbrunhage/Desktop/lsp-log.txt",
+      },
       filetypes = { "dart" },
       init_options = {
-        closingLabels = true,
-        flutterOutline = true,
-        onlyAnalyzeProjectsWithOpenFiles = true,
-        outline = true,
+        onlyAnalyzeProjectsWithOpenFiles = false,
         suggestFromUnimportedLibraries = true,
+        closingLabels = true,
+        outline = false,
+        flutterOutline = false,
       },
-      -- root_dir = root_pattern("pubspec.yaml"),
       settings = {
         dart = {
+          analysisExcludedFolders = dartExcludedFolders,
+          updateImportsOnRename = true,
           completeFunctionCalls = true,
           showTodos = true,
         },
       },
+    })
+
+
+    -- LSP configuration
+    local augroup = vim.api.nvim_create_augroup
+    local ElianOrtegaGroup = augroup('ElianOrtega', {})
+
+    local autocmd = vim.api.nvim_create_autocmd
+    local yank_group = augroup('HighlightYank', {})
+
+    autocmd('TextYankPost', {
+      group = yank_group,
+      pattern = '*',
+      callback = function()
+        vim.highlight.on_yank({
+          higroup = 'IncSearch',
+          timeout = 40,
+        })
+      end,
+    })
+
+    autocmd({ "BufWritePre" }, {
+      group = ElianOrtegaGroup,
+      pattern = "*",
+      command = [[%s/\s\+$//e]],
+    })
+
+
+    autocmd('LspAttach', {
+      group = ElianOrtegaGroup,
+      callback = function(e)
+        local opts = { buffer = e.buf }
+        vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+        vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+        vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
+        vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.setqflist() end, opts)
+        vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
+        vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
+        vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
+        vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+        vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
+        vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
+      end
     })
   end
 }
