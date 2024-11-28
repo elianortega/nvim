@@ -115,32 +115,32 @@ return {
     --   },
     -- })
 
-    lsp_config.dartls.setup({
-      capabilities = capabilities,
-      cmd = {
-        "dart",
-        "language-server",
-        "--protocol=lsp",
-        -- "--port=8123",
-        -- "--instrumentation-log-file=/Users/robertbrunhage/Desktop/lsp-log.txt",
-      },
-      filetypes = { "dart" },
-      init_options = {
-        onlyAnalyzeProjectsWithOpenFiles = false,
-        suggestFromUnimportedLibraries = true,
-        closingLabels = true,
-        outline = false,
-        flutterOutline = false,
-      },
-      settings = {
-        dart = {
-          analysisExcludedFolders = dartExcludedFolders,
-          updateImportsOnRename = true,
-          completeFunctionCalls = true,
-          showTodos = true,
-        },
-      },
-    })
+    -- lsp_config.dartls.setup({
+    --   capabilities = capabilities,
+    --   cmd = {
+    --     "dart",
+    --     "language-server",
+    --     "--protocol=lsp",
+    --     -- "--port=8123",
+    --     -- "--instrumentation-log-file=/Users/robertbrunhage/Desktop/lsp-log.txt",
+    --   },
+    --   filetypes = { "dart" },
+    --   init_options = {
+    --     onlyAnalyzeProjectsWithOpenFiles = false,
+    --     suggestFromUnimportedLibraries = true,
+    --     closingLabels = true,
+    --     outline = false,
+    --     flutterOutline = false,
+    --   },
+    --   settings = {
+    --     dart = {
+    --       analysisExcludedFolders = dartExcludedFolders,
+    --       updateImportsOnRename = true,
+    --       completeFunctionCalls = true,
+    --       showTodos = true,
+    --     },
+    --   },
+    -- })
 
 
     -- LSP configuration
