@@ -7,6 +7,12 @@ return {
 		{ "folke/neodev.nvim", opts = {} },
 	},
 	config = function()
+		vim.filetype.add({
+			extension = {
+				arb = "json",
+			},
+		})
+
 		-- import lspconfig plugin
 		local lspconfig = require("lspconfig")
 
