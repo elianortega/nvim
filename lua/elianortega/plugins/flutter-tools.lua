@@ -9,6 +9,11 @@ return {
 	config = function()
 		require("flutter-tools").setup({
 			fvm = true,
+			dev_log = {
+				enabled = true,
+				open_cmd = "tabedit", -- command to use to open the log buffer
+				focus_on_open = true,
+			},
 			debugger = {
 				enabled = true,
 				register_configurations = function(_)
