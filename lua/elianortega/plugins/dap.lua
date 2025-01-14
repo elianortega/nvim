@@ -3,7 +3,7 @@ return {
 	dependencies = {},
 	config = function()
 		local dap = require("dap")
-		vim.keymap.set("n", "<Leader>dt", dap.toggle_breakpoint, { desc = "Debugger toggle breakpoint" })
+		vim.keymap.set("n", "<Leader>db", dap.toggle_breakpoint, { desc = "Debugger toggle breakpoint" })
 		vim.keymap.set("n", "<Leader>dc", dap.continue, { desc = "Debugger continue" })
 
 		-- Dart CLI adapter (recommended)
