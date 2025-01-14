@@ -1,0 +1,26 @@
+{
+  "name": "custom-snips",
+  "contributes": {
+    "snippets": [
+      {
+        "language": [
+          "json",
+          "arb"
+        ],
+        "path": "./languages/arb.json"
+      },
+      {
+        "language": [
+          "dart"
+        ],
+        "path": "./languages/dart.json"
+      },
+      {
+        "language": [
+          "lua"
+        ],
+        "path": "./languages/lua.json"
+      }
+    ]
+  }
+}

@@ -10,18 +10,31 @@ return {
 			version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
 			-- install jsregexp (optional!).
 			build = "make install_jsregexp",
+			dependencies = { "rafamadriz/friendly-snippets" },
+			config = function()
+				-- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
+				require("luasnip").filetype_extend("arb", { "json" })
+				require("luasnip.loaders.from_vscode").lazy_load({
+					paths = {
+						"./lua/elianortega/plugins/snippets",
+					},
+				})
+				local ls = require("luasnip")
+				vim.keymap.set({ "i", "s" }, "<C-j>", function()
+					ls.jump(1)
+				end, { silent = true })
+				vim.keymap.set({ "i", "s" }, "<C-k>", function()
+					ls.jump(-1)
+				end, { silent = true })
+			end,
 		},
 		"saadparwaiz1/cmp_luasnip", -- for autocompletion
-		"rafamadriz/friendly-snippets", -- useful snippets
 		"onsails/lspkind.nvim", -- vs-code like pictograms
 	},
 	config = function()
 		local cmp = require("cmp")
 		local luasnip = require("luasnip")
 		local lspkind = require("lspkind")
-
-		-- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
-		require("luasnip.loaders.from_vscode").lazy_load()
 
 		cmp.setup({
 			completion = {

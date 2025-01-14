@@ -1,0 +1,21 @@
+{
+  "Dart Test File": {
+    "prefix": "dartTestFile",
+    "body": [
+      "import 'package:test/test.dart';",
+      "",
+      "void main() {",
+      "  group('${1:ClassName}', () {",
+      "    ${1:ClassName} buildSubject() => ${1:ClassName}(1);",
+      "",
+      "    group('constructor', () {",
+      "      test('returns normally', () {",
+      "        expect(buildSubject, returnsNormally);",
+      "      });",
+      "    });",
+      "  });",
+      "}"
+    ],
+    "description": "Dart Test File"
+  }
+}

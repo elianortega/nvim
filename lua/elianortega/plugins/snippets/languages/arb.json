@@ -1,0 +1,12 @@
+{
+  "arb": {
+    "prefix": "arb",
+    "body": [
+      "\"${1:name}\": \"${2:translation}\",",
+      "\"@${1:name}\": {",
+      "  \"description\":\"${3:description}\" ",
+      "},"
+    ],
+    "description": "arb file new entry"
+  }
+}
