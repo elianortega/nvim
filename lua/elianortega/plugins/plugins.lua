@@ -85,7 +85,7 @@ return {
 	},
 	{
 		"folke/noice.nvim",
-		event = "verylazy",
+		event = "VeryLazy",
 		opts = {
 			routes = {
 				{

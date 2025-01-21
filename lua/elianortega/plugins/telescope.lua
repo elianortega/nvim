@@ -37,8 +37,6 @@ return {
 				},
 			})
 
-			telescope.load_extension("fzf")
-
 			-- set keymaps
 			local keymap = vim.keymap -- for conciseness
 
@@ -53,6 +51,11 @@ return {
 				{ desc = "Find string under cursor in cwd" }
 			)
 			keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
+
+			-- load extensions
+			telescope.load_extension("fzf")
+
+			telescope.load_extension("noice")
 		end,
 	},
 	{
