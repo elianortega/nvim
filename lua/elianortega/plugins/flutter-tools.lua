@@ -3,6 +3,13 @@ return {
 		"f-person/pubspec-assist-nvim",
 	},
 	{
+		"akinsho/pubspec-assist.nvim",
+		requires = "plenary.nvim",
+		config = function()
+			require("pubspec-assist").setup()
+		end,
+	},
+	{
 		"nvim-flutter/flutter-tools.nvim",
 		commit = "9955c98",
 		lazy = false,

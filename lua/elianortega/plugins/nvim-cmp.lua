@@ -14,6 +14,7 @@ return {
 			config = function()
 				-- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
 				require("luasnip").filetype_extend("arb", { "json" })
+				require("luasnip.loaders.from_vscode").lazy_load()
 				require("luasnip.loaders.from_vscode").lazy_load({
 					paths = {
 						"./lua/elianortega/plugins/snippets",
