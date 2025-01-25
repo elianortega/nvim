@@ -17,5 +17,10 @@
       "}"
     ],
     "description": "Dart Test File"
+  },
+  "L10n build method": {
+    "prefix": "l10n",
+    "body": ["final l10n = context.l10n;"],
+    "description": "L10n build method"
   }
 }
