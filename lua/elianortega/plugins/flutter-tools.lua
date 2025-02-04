@@ -45,6 +45,14 @@ return {
 				flutter_tools.setup({
 					fvm = true,
 					lsp = {
+						color = {
+							enabled = true,
+							background = false,
+							background_color = { r = 19, g = 17, b = 24 },
+							foreground = false,
+							virtual_text = true,
+							virtual_text_str = "■",
+						},
 						settings = {
 							analysisExcludedFolders = excluded_folders,
 						},
@@ -97,19 +105,6 @@ return {
 				})
 			end, { desc = "Remove Widget" })
 
-			-- Wrap with Row
-			keymap.set("n", "<leader>wc", function()
-				vim.lsp.buf.code_action({
-					title = "Wrap with Row",
-					apply = true,
-					context = {
-						diagnostics = {},
-						---@diagnostic disable-next-line: assign-type-mismatch
-						only = { "refactor.flutter.wrap.row" },
-					},
-				})
-			end, { desc = "Wrap with Row" })
-
 			-- Wrap with Builder
 			keymap.set("n", "<leader>wb", function()
 				vim.lsp.buf.code_action({
@@ -126,12 +121,12 @@ return {
 			-- Wrap with Center
 			keymap.set("n", "<leader>wc", function()
 				vim.lsp.buf.code_action({
-					title = "Wrap with Center",
+					title = "Wrap with Column",
 					apply = true,
 					context = {
 						diagnostics = {},
 						---@diagnostic disable-next-line: assign-type-mismatch
-						only = { "refactor.flutter.wrap.center" },
+						only = { "refactor.flutter.wrap.column" },
 					},
 				})
 			end, { desc = "Wrap with Center" })

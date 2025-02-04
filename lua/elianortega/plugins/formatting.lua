@@ -4,6 +4,13 @@ return {
 	config = function()
 		local conform = require("conform")
 
+		-- Ensure .arb files are treated as JSON
+		vim.filetype.add({
+			extension = {
+				arb = "json",
+			},
+		})
+
 		conform.setup({
 			formatters_by_ft = {
 				javascript = { "prettier" },
@@ -26,6 +33,20 @@ return {
 				async = false,
 				timeout_ms = 1000,
 			},
+			-- formatters = {
+			-- 	prettier = {
+			-- 		command = "prettier",
+			-- 		args = function(params)
+			-- 			-- Add custom arguments for .arb files
+			-- 			return {}
+			-- 			-- if vim.fn.expand("%:e") == "arb" then
+			-- 			-- 	return { "--parser", "json" }
+			-- 			-- end
+			-- 			-- Default arguments for other file types
+			-- 		end,
+			-- 		stdin = true,
+			-- 	},
+			-- },
 		})
 
 		vim.keymap.set({ "n", "v" }, "<leader>mp", function()

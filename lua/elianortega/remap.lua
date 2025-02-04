@@ -47,8 +47,6 @@ keymap.set("n", "Y", "yy", { desc = "Yank entire line" })
 keymap.set({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete without saving to clipboard" })
 
 keymap.set("n", "Q", "<nop>", { desc = "Disable Q (no-op)" })
-keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { desc = "Open tmux sessionizer" })
-
 keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz", { desc = "Next quickfix item and center" })
 keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz", { desc = "Previous quickfix item and center" })
 keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz", { desc = "Next location list item and center" })

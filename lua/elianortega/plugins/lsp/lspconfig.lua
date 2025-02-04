@@ -146,6 +146,17 @@ return {
 					},
 				})
 			end,
+			["jsonls"] = function()
+				-- Configure JSON language server
+				lspconfig["jsonls"].setup({
+					capabilities = capabilities,
+					settings = {
+						json = {
+							validate = { enable = true }, -- Enable JSON validation
+						},
+					},
+				})
+			end,
 		})
 	end,
 }
