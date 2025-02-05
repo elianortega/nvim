@@ -77,7 +77,7 @@ return {
 
 			require("telescope").load_extension("flutter")
 			local keymap = vim.keymap -- for conciseness
-			keymap.set("n", "<leader>fc", "<cmd>Telescope flutter commands<cr>", { desc = "Show all flutter commands" })
+			-- keymap.set("n", "<leader>fc", "<cmd>Telescope flutter commands<cr>", { desc = "Show all flutter commands" })
 
 			-- Wrap with Widget
 			keymap.set("n", "<leader>ww", function()
