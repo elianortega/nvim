@@ -7,13 +7,25 @@ return {
 			"nvim-telescope/telescope-fzy-native.nvim",
 			"nvim-tree/nvim-web-devicons",
 			"folke/todo-comments.nvim",
+			"nvim-telescope/telescope-live-grep-args.nvim", -- live grep with args
 		},
 		config = function()
 			local telescope = require("telescope")
 			local actions = require("telescope.actions")
 
+			local telescopeConfig = require("telescope.config")
+			-- Clone the default Telescope configuration
+			local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
+
+			-- I want to search in hidden/dot files.
+			table.insert(vimgrep_arguments, "--hidden")
+			-- I don't want to search in the `.git` directory.
+			table.insert(vimgrep_arguments, "--glob")
+			table.insert(vimgrep_arguments, "!**/.git/*")
+
 			telescope.setup({
 				defaults = {
+					vimgrep_arguments = vimgrep_arguments,
 					path_display = { "smart" },
 					mappings = {
 						n = {
@@ -28,6 +40,12 @@ return {
 						},
 					},
 				},
+				pickers = {
+					find_files = {
+						-- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+						find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+					},
+				},
 			})
 
 			-- set keymaps
@@ -38,7 +56,12 @@ return {
 			keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Fuzzy find files in cwd" })
 			keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Fuzzy find files in cwd" })
 			keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Fuzzy find recent files" })
-			keymap.set("n", "<leader>fgg", builtin.live_grep, { desc = "Find string in cwd" })
+			keymap.set(
+				"n",
+				"<leader>fgg",
+				":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>",
+				{ desc = "Find string in cwd" }
+			)
 			keymap.set("n", "<leader>fgs", builtin.grep_string, { desc = "Find string under cursor in cwd" })
 			keymap.set("n", "<leader>fc", builtin.commands, { desc = "Find available commands" })
 			keymap.set("n", "<leader>fs", builtin.lsp_document_symbols, { desc = "Find lsp document symbols" })
@@ -50,6 +73,7 @@ return {
 			-- load extensions
 			telescope.load_extension("fzy_native")
 			telescope.load_extension("noice")
+			telescope.load_extension("live_grep_args")
 		end,
 	},
 	{
