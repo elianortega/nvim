@@ -44,7 +44,7 @@ keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy to system clipboar
 keymap.set("n", "<leader>Y", [["+Y]], { desc = "Copy line to system clipboard" })
 keymap.set("n", "Y", "yy", { desc = "Yank entire line" })
 
-keymap.set({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete without saving to clipboard" })
+keymap.set({ "v" }, "<leader>d", '"_d', { desc = "Delete without saving to clipboard" })
 
 keymap.set("n", "Q", "<nop>", { desc = "Disable Q (no-op)" })
 keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz", { desc = "Next quickfix item and center" })
@@ -53,8 +53,8 @@ keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz", { desc = "Next location list it
 keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz", { desc = "Previous location list item and center" })
 
 keymap.set(
-	"n",
-	"<leader>s",
+	{ "n", "v" },
+	"<leader>sr",
 	[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
 	{ desc = "Search and replace word under cursor" }
 )

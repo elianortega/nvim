@@ -57,4 +57,7 @@ return {
 			"rcarriga/nvim-notify",
 		},
 	},
+	{
+		"eandrju/cellular-automaton.nvim",
+	},
 }

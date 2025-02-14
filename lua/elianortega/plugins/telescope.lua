@@ -16,10 +16,15 @@ return {
 				defaults = {
 					path_display = { "smart" },
 					mappings = {
+						n = {
+							["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist, --+ custom_actions.open_trouble_qflist,
+						},
 						i = {
 							["<C-k>"] = actions.move_selection_previous, -- move to prev result
 							["<C-j>"] = actions.move_selection_next, -- move to next result
-							["<C-q>"] = actions.send_selected_to_qflist, --+ custom_actions.open_trouble_qflist,
+							["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist, --+ custom_actions.open_trouble_qflist,
+							["<C-p>"] = actions.cycle_history_prev,
+							["<C-n>"] = actions.cycle_history_next,
 						},
 					},
 				},
@@ -29,6 +34,7 @@ return {
 			local keymap = vim.keymap -- for conciseness
 			local builtin = require("telescope.builtin")
 
+			keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Fuzzy find help tags" })
 			keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Fuzzy find files in cwd" })
 			keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Fuzzy find files in cwd" })
 			keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Fuzzy find recent files" })
