@@ -60,4 +60,21 @@ return {
 	{
 		"eandrju/cellular-automaton.nvim",
 	},
+	{
+		"akinsho/toggleterm.nvim",
+		config = function()
+			require("toggleterm").setup({
+				direction = "float",
+				open_mapping = [[<c-\>]],
+				float_opts = {
+					width = function()
+						return math.floor(vim.o.columns * 0.7)
+					end,
+					height = function()
+						return math.floor(vim.o.lines * 0.7)
+					end,
+				},
+			})
+		end,
+	},
 }
