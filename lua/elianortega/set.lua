@@ -59,3 +59,6 @@ opt.isfname:append("@-@")
 opt.updatetime = 50
 
 opt.colorcolumn = "80"
+
+-- tmux
+vim.g.tmux_navigator_no_mappings = 1
