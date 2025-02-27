@@ -5,6 +5,7 @@ return {
 		"nvim-lua/plenary.nvim",
 		"nvim-neotest/nvim-nio",
 		"nvim-treesitter/nvim-treesitter",
+		"nvim-neotest/neotest-jest",
 		"sidlatau/neotest-dart",
 	},
 	cmds = {
@@ -79,6 +80,14 @@ return {
 	config = function()
 		require("neotest").setup({
 			adapters = {
+				require("neotest-jest")({
+					jestCommand = "npm test --",
+					jestConfigFile = "custom.jest.config.ts",
+					env = { CI = true },
+					cwd = function(path)
+						return vim.fn.getcwd()
+					end,
+				}),
 				require("neotest-dart")({
 					command = "fvm flutter",
 					use_lsp = true,
