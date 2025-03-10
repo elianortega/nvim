@@ -1,0 +1,7 @@
+{
+  "Export All From File": {
+    "prefix": "exportall",
+    "body": ["export * from './${1:name}';"],
+    "description": "Export all from file"
+  }
+}

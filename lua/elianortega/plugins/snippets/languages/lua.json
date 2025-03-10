@@ -1,6 +1,6 @@
 {
   "snip1": {
     "prefix": "lua",
-    "body": ["lualualua"]
+    "body": ["local $1 = $2", "$0"]
   }
 }

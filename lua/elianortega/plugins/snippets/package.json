@@ -20,6 +20,13 @@
           "lua"
         ],
         "path": "./languages/lua.json"
+      },
+      {
+        "language": [
+          "typescript",
+          "javascript"
+        ],
+        "path": "./languages/typescript.json"
       }
     ]
   }
