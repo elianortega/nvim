@@ -91,6 +91,24 @@ return {
 					capabilities = capabilities,
 				})
 			end,
+			["pyright"] = function()
+				-- configure pyright server
+				-- Get the correct Python interpreter
+				local python_path = vim.fn.exepath("python3")
+				lspconfig["pyright"].setup({
+					settings = {
+						python = {
+							pythonPath = python_path, -- Use the correct Python interpreter
+							analysis = {
+								typeCheckingMode = "basic",
+								reportMissingTypeStubs = false, -- <== This disables the warning
+							},
+						},
+					},
+					capabilities = capabilities,
+					filetypes = { "python" },
+				})
+			end,
 			["svelte"] = function()
 				-- configure svelte server
 				lspconfig["svelte"].setup({

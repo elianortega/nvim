@@ -22,5 +22,19 @@
     "prefix": "l10n",
     "body": ["final l10n = context.l10n;"],
     "description": "L10n build method"
+  },
+  "fromJson": {
+    "prefix": "fromJson",
+    "body": [
+      "/// Converts a `Map<String, dynamic>` into a [${1:name}] instance.",
+      "factory ${1:name}.fromJson(Map<String, dynamic> json) => _$${1:name}FromJson(json);"
+    ]
+  },
+  "toJson": {
+    "prefix": "toJson",
+    "body": [
+      "/// Converts the current instance to a `Map<String, dynamic>`.",
+      "Map<String, dynamic> toJson() => _$${1:name}ToJson(this);"
+    ]
   }
 }

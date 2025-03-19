@@ -1,29 +1,127 @@
+local js_based_languages = {
+	"typescript",
+	"javascript",
+	"typescriptreact",
+	"javascriptreact",
+	"vue",
+}
+
 return {
 	"mfussenegger/nvim-dap",
 	config = function()
 		local dap = require("dap")
+		local dap_ext_vscode = require("dap.ext.vscode")
+		local dap_virtual_text = require("nvim-dap-virtual-text")
+
 		vim.keymap.set("n", "<Leader>db", dap.toggle_breakpoint, { desc = "Debugger toggle breakpoint" })
 		vim.keymap.set("n", "<Leader>dc", dap.continue, { desc = "Debugger continue" })
 
-		-- Dart CLI adapter (recommended)
-		-- dap.adapters.dart = {
-		-- 	type = "executable",
-		-- 	command = "dart", -- if you're using fvm, you'll need to provide the full path to dart (dart.exe for windows users), or you could prepend the fvm command
-		-- 	args = { "debug_adapter" },
-		-- 	-- windows users will need to set 'detached' to false
-		-- 	options = {
-		-- 		detached = false,
-		-- 	},
-		-- }
-		-- dap.adapters.flutter = {
-		-- 	type = "executable",
-		-- 	command = "flutter", -- if you're using fvm, you'll need to provide the full path to flutter (flutter.bat for windows users), or you could prepend the fvm command
-		-- 	args = { "debug_adapter" },
-		-- 	-- windows users will need to set 'detached' to false
-		-- 	options = {
-		-- 		detached = false,
-		-- 	},
-		-- }
+		-- # Sign
+		vim.fn.sign_define("DapBreakpoint", { text = "🟥", texthl = "", linehl = "", numhl = "" })
+		vim.fn.sign_define("DapBreakpointCondition", { text = "🟧", texthl = "", linehl = "", numhl = "" })
+		vim.fn.sign_define("DapLogPoint", { text = "🟩", texthl = "", linehl = "", numhl = "" })
+		vim.fn.sign_define("DapStopped", { text = "🈁", texthl = "", linehl = "", numhl = "" })
+		vim.fn.sign_define("DapBreakpointRejected", { text = "⬜", texthl = "", linehl = "", numhl = "" })
+
+		-- # DAP Virtual Text
+		dap_virtual_text.setup({
+			enabled = true,
+			enabled_commands = true,
+			highlight_changed_variables = true,
+			highlight_new_as_changed = false,
+			show_stop_reason = true,
+			commented = false,
+			only_first_definition = true,
+			all_references = false,
+			filter_references_pattern = "<module",
+			virt_text_pos = "eol",
+			all_frames = false,
+			virt_lines = false,
+			virt_text_win_col = nil,
+		})
+
+		-- ## DAP `launch.json`
+		dap_ext_vscode.load_launchjs(nil, {
+			["python"] = {
+				"python",
+			},
+			["pwa-node"] = {
+				"javascript",
+				"typescript",
+			},
+			["node"] = {
+				"javascript",
+				"typescript",
+			},
+			["cppdbg"] = {
+				"c",
+				"cpp",
+			},
+			["dlv"] = {
+				"go",
+			},
+		})
+
+		--- Gets a path to a package in the Mason registry.
+		--- Prefer this to `get_package`, since the package might not always be
+		--- available yet and trigger errors.
+		---@param pkg string
+		---@param path? string
+		local function get_pkg_path(pkg, path)
+			pcall(require, "mason")
+			local root = vim.env.MASON or (vim.fn.stdpath("data") .. "/mason")
+			path = path or ""
+			local ret = root .. "/packages/" .. pkg .. "/" .. path
+			return ret
+		end
+
+		require("dap").adapters["pwa-node"] = {
+			type = "server",
+			host = "localhost",
+			port = "${port}",
+			executable = {
+				command = "node",
+				args = {
+					get_pkg_path("js-debug-adapter", "/js-debug/src/dapDebugServer.js"),
+					"${port}",
+				},
+			},
+		}
+
+		for _, language in ipairs(js_based_languages) do
+			dap.configurations[language] = {
+				-- Debug single nodejs files
+				{
+					type = "pwa-node",
+					name = "Launch file",
+					request = "launch",
+					program = "${file}",
+					cwd = "${workspaceFolder}",
+				},
+				-- Debug nodejs processes (make sure to add --inspect when you run the process)
+				{
+					type = "pwa-node",
+					request = "attach",
+					name = "Auto Attach",
+					cwd = vim.fn.getcwd(),
+					protocol = "inspector",
+				},
+				{
+					type = "pwa-node",
+					request = "attach",
+					name = "Attach",
+					processId = require("dap.utils").pick_process,
+					cwd = vim.fn.getcwd(),
+					sourceMaps = true,
+				},
+				-- Divider for the launch.json derived configs
+				{
+					name = "----- ↓ launch.json configs ↓ -----",
+					type = "",
+					request = "launch",
+				},
+			}
+		end
 	end,
 	dependencies = {
 		{ "theHamsta/nvim-dap-virtual-text" },
@@ -40,27 +138,49 @@ return {
 					desc = "Toggle debugger UI",
 				})
 
+				-- # DAP UI
 				dapui.setup({
-					floating = { border = "rounded" },
+					icons = { expanded = "▾", collapsed = "▸" },
+					expand_lines = vim.fn.has("nvim-0.7"),
 					layouts = {
 						{
 							elements = {
-								{ id = "stacks", size = 0.30 },
-								{ id = "breakpoints", size = 0.20 },
-								{ id = "scopes", size = 0.50 },
+								-- Elements can be strings or table with id and size keys.
+								{ id = "scopes", size = 0.25 },
+								"breakpoints",
+								"stacks",
+								"watches",
 							},
-							position = "left",
-							size = 10,
+							size = 40,
+							position = "right",
 						},
 						{
 							elements = {
-								{ id = "repl", size = 0.80 },
+								{ id = "repl", size = 0.5 },
+								{ id = "console", size = 0.5 },
 							},
+							size = 10,
 							position = "bottom",
-							size = 15,
 						},
 					},
+					floating = {
+						max_height = nil, -- These can be integers or a float between 0 and 1.
+						max_width = nil, -- Floats will be treated as percentage of your screen.
+						border = "rounded", -- Border style. Can be "single", "double" or "rounded"
+						mappings = {
+							close = { "q", "<Esc>" },
+						},
+					},
+					windows = { indent = 1 },
+					render = {
+						max_type_length = nil,
+					},
 				})
+
+				dap.listeners.after.event_initialized["dapui_config"] = function()
+					vim.cmd("tabfirst|tabnext")
+					dapui.open()
+				end
 
 				dap.listeners.before.attach.dapui_config = function()
 					dapui.open()
