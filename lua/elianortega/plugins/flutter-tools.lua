@@ -59,8 +59,13 @@ return {
 					},
 					dev_log = {
 						enabled = true,
-						open_cmd = "tabedit", -- command to use to open the log buffer
-						focus_on_open = true,
+						open_cmd = "tabedit",
+						filter = function(line)
+							if line:match("^D/EGL") then
+								return false
+							end
+							return true
+						end,
 					},
 					debugger = {
 						enabled = true,

@@ -20,5 +20,13 @@ return {
 	},
 	{
 		"sindrets/diffview.nvim",
+		config = function()
+			require("diffview").setup()
+		end,
+		keys = {
+			{ "<leader>dvo", "<cmd>DiffviewOpen<cr>", desc = "Open diff view" },
+			{ "<leader>dvc", "<cmd>DiffviewClose<cr>", desc = "Close diff view" },
+			{ "<leader>dvf", "<cmd>DiffviewFileHistory %<cr>", desc = "File history" },
+		},
 	},
 }

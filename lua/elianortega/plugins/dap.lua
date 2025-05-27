@@ -15,6 +15,12 @@ return {
 
 		vim.keymap.set("n", "<Leader>db", dap.toggle_breakpoint, { desc = "Debugger toggle breakpoint" })
 		vim.keymap.set("n", "<Leader>dc", dap.continue, { desc = "Debugger continue" })
+		vim.keymap.set("n", "<Leader>dC", dap.run_to_cursor, { desc = "Debugger run to cursor" })
+		vim.keymap.set("n", "<Leader>dn", dap.step_over, { desc = "Debugger step over" })
+		vim.keymap.set("n", "<Leader>dr", dap.restart, { desc = "Debugger restart" })
+		vim.keymap.set("n", "<space>?", function()
+			require("dapui").eval(nil, { enter = true })
+		end, { desc = "Debugger Evaluate expression" })
 
 		-- # Sign
 		vim.fn.sign_define("DapBreakpoint", { text = "🟥", texthl = "", linehl = "", numhl = "" })
@@ -132,10 +138,10 @@ return {
 				local dap = require("dap")
 				local dapui = require("dapui")
 
-				vim.keymap.set("n", "<Leader>dt", dapui.toggle, { desc = "Toggle debugger UI" })
-				vim.keymap.set("n", "<Leader>dr", ":lua require('dapui').open({reset = true})<CR>", {
+				vim.keymap.set("n", "<Leader>dut", dapui.toggle, { desc = "Toggle debugger UI" })
+				vim.keymap.set("n", "<Leader>dur", ":lua require('dapui').open({reset = true})<CR>", {
 					noremap = true,
-					desc = "Toggle debugger UI",
+					desc = "Reset debugger UI",
 				})
 
 				-- # DAP UI
