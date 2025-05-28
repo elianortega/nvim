@@ -16,7 +16,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-	spec = { {import = "elianortega.plugins" }, {import = "elianortega.plugins.lsp"} },
+	spec = { { import = "elianortega.plugins" }, { import = "elianortega.plugins.lsp" } },
 	checker = {
 		enabled = true,
 		notify = false,

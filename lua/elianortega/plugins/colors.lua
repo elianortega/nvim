@@ -1,3 +1,4 @@
+-- Plugin to set colorscheme in Neovim with transparency support
 function ColorMyPencils(color)
 	color = color or "tokyonight"
 	-- color = color or "rose-pine-moon"

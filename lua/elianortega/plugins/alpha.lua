@@ -1,3 +1,4 @@
+-- Landing page for Neovim using alpha-nvim
 return {
 	"goolord/alpha-nvim",
 	event = "VimEnter",

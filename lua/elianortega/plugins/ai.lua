@@ -1,5 +1,5 @@
+-- AI Capabilities in Neovim
 return {
-	-- { "augmentcode/augment.vim" },
 	{ "github/copilot.vim" },
 	{
 		"yetone/avante.nvim",

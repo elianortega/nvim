@@ -1,8 +1,5 @@
 return {
 	{
-		"f-person/pubspec-assist-nvim",
-	},
-	{
 		"akinsho/pubspec-assist.nvim",
 		requires = "plenary.nvim",
 		config = function()
@@ -82,7 +79,6 @@ return {
 
 			require("telescope").load_extension("flutter")
 			local keymap = vim.keymap -- for conciseness
-			-- keymap.set("n", "<leader>fc", "<cmd>Telescope flutter commands<cr>", { desc = "Show all flutter commands" })
 
 			-- Wrap with Widget
 			keymap.set("n", "<leader>ww", function()
@@ -110,6 +106,19 @@ return {
 				})
 			end, { desc = "Remove Widget" })
 
+			-- Wrap with Column
+			keymap.set("n", "<leader>wc", function()
+				vim.lsp.buf.code_action({
+					title = "Wrap with Column",
+					apply = true,
+					context = {
+						diagnostics = {},
+						---@diagnostic disable-next-line: assign-type-mismatch
+						only = { "refactor.flutter.wrap.column" },
+					},
+				})
+			end, { desc = "Remove Widget" })
+
 			-- Wrap with Builder
 			keymap.set("n", "<leader>wb", function()
 				vim.lsp.buf.code_action({
@@ -122,19 +131,6 @@ return {
 					},
 				})
 			end, { desc = "Wrap with Builder" })
-
-			-- Wrap with Center
-			keymap.set("n", "<leader>wc", function()
-				vim.lsp.buf.code_action({
-					title = "Wrap with Column",
-					apply = true,
-					context = {
-						diagnostics = {},
-						---@diagnostic disable-next-line: assign-type-mismatch
-						only = { "refactor.flutter.wrap.column" },
-					},
-				})
-			end, { desc = "Wrap with Center" })
 		end,
 	},
 }
