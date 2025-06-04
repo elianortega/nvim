@@ -302,5 +302,10 @@
     "prefix": "importflutterbloc",
     "body": "import 'package:flutter_bloc/flutter_bloc.dart';",
     "description": "import package:flutter_bloc/flutter_bloc.dart;"
+  },
+  "Color Scheme": {
+    "prefix": "colorscheme",
+    "body": ["final colorScheme = context.colorScheme;"],
+    "description": "Color Scheme"
   }
 }
