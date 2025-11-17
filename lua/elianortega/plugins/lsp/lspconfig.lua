@@ -66,7 +66,7 @@ return {
 				keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
 
 				opts.desc = "Restart LSP"
-				keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+				keymap.set("n", "<leader>rs", ":LspRestart", opts) -- mapping to restart lsp if necessary
 			end,
 		})
 
@@ -80,98 +80,5 @@ return {
 			local hl = "DiagnosticSign" .. type
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 		end
-
-		-- mason_lspconfig.setup_handlers({
-		-- 	-- default handler for installed servers
-		-- 	function(server_name)
-		-- 		lspconfig[server_name].setup({
-		-- 			capabilities = capabilities,
-		-- 		})
-		-- 	end,
-		-- 	["pyright"] = function()
-		-- 		-- configure pyright server
-		-- 		-- Get the correct Python interpreter
-		-- 		local python_path = vim.fn.exepath("python3")
-		-- 		lspconfig["pyright"].setup({
-		-- 			settings = {
-		-- 				python = {
-		-- 					pythonPath = python_path, -- Use the correct Python interpreter
-		-- 					analysis = {
-		-- 						typeCheckingMode = "basic",
-		-- 						reportMissingTypeStubs = false, -- <== This disables the warning
-		-- 					},
-		-- 				},
-		-- 			},
-		-- 			capabilities = capabilities,
-		-- 			filetypes = { "python" },
-		-- 		})
-		-- 	end,
-		-- 	["svelte"] = function()
-		-- 		-- configure svelte server
-		-- 		lspconfig["svelte"].setup({
-		-- 			capabilities = capabilities,
-		-- 			on_attach = function(client, bufnr)
-		-- 				vim.api.nvim_create_autocmd("BufWritePost", {
-		-- 					pattern = { "*.js", "*.ts" },
-		-- 					callback = function(ctx)
-		-- 						-- Here use ctx.match instead of ctx.file
-		-- 						client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
-		-- 					end,
-		-- 				})
-		-- 			end,
-		-- 		})
-		-- 	end,
-		-- 	["graphql"] = function()
-		-- 		-- configure graphql language server
-		-- 		lspconfig["graphql"].setup({
-		-- 			capabilities = capabilities,
-		-- 			filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
-		-- 		})
-		-- 	end,
-		-- 	["emmet_ls"] = function()
-		-- 		-- configure emmet language server
-		-- 		lspconfig["emmet_ls"].setup({
-		-- 			capabilities = capabilities,
-		-- 			filetypes = {
-		-- 				"html",
-		-- 				"typescriptreact",
-		-- 				"javascriptreact",
-		-- 				"css",
-		-- 				"sass",
-		-- 				"scss",
-		-- 				"less",
-		-- 				"svelte",
-		-- 			},
-		-- 		})
-		-- 	end,
-		-- 	["lua_ls"] = function()
-		-- 		-- configure lua server (with special settings)
-		-- 		lspconfig["lua_ls"].setup({
-		-- 			capabilities = capabilities,
-		-- 			settings = {
-		-- 				Lua = {
-		-- 					-- make the language server recognize "vim" global
-		-- 					diagnostics = {
-		-- 						globals = { "vim" },
-		-- 					},
-		-- 					completion = {
-		-- 						callSnippet = "Replace",
-		-- 					},
-		-- 				},
-		-- 			},
-		-- 		})
-		-- 	end,
-		-- 	["jsonls"] = function()
-		-- 		-- Configure JSON language server
-		-- 		lspconfig["jsonls"].setup({
-		-- 			capabilities = capabilities,
-		-- 			settings = {
-		-- 				json = {
-		-- 					validate = { enable = true }, -- Enable JSON validation
-		-- 				},
-		-- 			},
-		-- 		})
-		-- 	end,
-		-- })
 	end,
 }

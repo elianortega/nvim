@@ -62,3 +62,7 @@ opt.colorcolumn = "80"
 
 -- tmux
 vim.g.tmux_navigator_no_mappings = 1
+
+-- spell checking
+opt.spell = true -- enable spell checking
+opt.spelllang = "en_us" -- set spell check language
